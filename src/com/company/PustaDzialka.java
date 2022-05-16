@@ -2,9 +2,10 @@ package com.company;
 
 public class PustaDzialka extends Dzialka{
     public PustaDzialka(int x, int y){
-        wspolrzedne[0]=x;
-        wspolrzedne[1]=y;
+        this.x=x;
+        this.y=y;
         typ=Typ.PUSTE;
         poziom=1;
+        zadowolenie=0;
     }
 }

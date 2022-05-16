@@ -2,9 +2,10 @@ package com.company;
 
 public class Tramwaj extends Dzialka{
     public Tramwaj(int x, int y){
-        wspolrzedne[0]=x;
-        wspolrzedne[1]=y;
+        this.x=x;
+        this.y=y;
         typ=Typ.TRAMWAJ;
         poziom=5;
+        zadowolenie=0;
     }
 }

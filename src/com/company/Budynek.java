@@ -2,7 +2,6 @@ package com.company;
 
 abstract class Budynek extends Dzialka{
     int uzytkownicy;
-    double zadowolenie;
 
     //ilosc sasiadow
     int sasiedniePuste;
@@ -15,12 +14,12 @@ abstract class Budynek extends Dzialka{
     abstract int obliczUzytkownicy(int poziom);
     abstract double obliczZadowolenie();
     void ustawSasiadow(){
-        sasiedniePuste=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.PUSTE);
-        sasiednieBiurowiec=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.BIUROWIEC);
-        sasiednieDom=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.DOM);
-        sasiednieFabryka=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.FABRYKA);
-        sasiednieSklep=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.SKLEP);
-        sasiednieTramwaj=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.TRAMWAJ);
+        sasiedniePuste=Miasto.policzWSasiedztwie(x,y, Typ.PUSTE);
+        sasiednieBiurowiec=Miasto.policzWSasiedztwie(x,y, Typ.BIUROWIEC);
+        sasiednieDom=Miasto.policzWSasiedztwie(x,y, Typ.DOM);
+        sasiednieFabryka=Miasto.policzWSasiedztwie(x,y, Typ.FABRYKA);
+        sasiednieSklep=Miasto.policzWSasiedztwie(x,y, Typ.SKLEP);
+        sasiednieTramwaj=Miasto.policzWSasiedztwie(x,y, Typ.TRAMWAJ);
     }
     void podniesPoziom(){
         if (poziom<5) {

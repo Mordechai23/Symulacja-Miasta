@@ -5,9 +5,8 @@ public class Biurowiec extends Budynek {
         typ=Typ.BIUROWIEC;
         poziom=1;
         uzytkownicy=obliczUzytkownicy(poziom);
-        wspolrzedne[0]=x;
-        wspolrzedne[1]=y;
-        ustawSasiadow();
+        this.x=x;
+        this.y=y;
     }
     int obliczUzytkownicy(int poziom) {
         return (poziom+1)^2+14;

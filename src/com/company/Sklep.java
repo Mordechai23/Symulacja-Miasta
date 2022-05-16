@@ -5,9 +5,8 @@ public class Sklep extends Budynek{
         typ=Typ.SKLEP;
         poziom=1;
         uzytkownicy=obliczUzytkownicy(poziom);
-        wspolrzedne[0]=x;
-        wspolrzedne[1]=y;
-        ustawSasiadow();
+        this.x=x;
+        this.y=y;
     }
     int obliczUzytkownicy(int poziom) {
         return (poziom*2);

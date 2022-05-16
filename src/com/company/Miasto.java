@@ -11,7 +11,7 @@ public class Miasto {
     private static Dzialka[][] plansza = new Dzialka[wymiar][wymiar];
     private int runda;
     private int limitRund=100;
-    static double zageszczenie=0.4;
+    static double zageszczenie=0.3;
     private static final String filename="config.txt"; //config
 
     //poziomy relacji
@@ -58,19 +58,22 @@ public class Miasto {
     }
     public static void inicjalizacja(){
         //tworzy plansze i populuje ją losowymi budynkami wg parametrow
-        int budRandom;
+        int budRandom=0;
         int tramKolumna=((int) (Math.random() * 8)+1);
+        double zagRandom;
 
         //zapelnij plansze budynkami i pustymi polami
-        for (int i=0;i<=plansza.length;i++){
-            for (int j=0; j<=plansza.length; j++){
-                if (Math.random()<zageszczenie) {
-                    budRandom = (int) (Math.random() * 4 + 1);
+        for (int i=0;i<plansza.length;i++){
+            for (int j=0; j<plansza.length; j++){
+
+                budRandom =((int) (Math.random() * 4) + 1);
+                zagRandom=Math.random();
+                if (zagRandom<zageszczenie) {
                     switch (budRandom){
-                        case 1: plansza[i][j]=new Dom(i,j);
-                        case 2: plansza[i][j]=new Biurowiec(i,j);
-                        case 3: plansza[i][j]=new Sklep(i,j);
-                        case 4: plansza[i][j]=new Fabryka(i,j);
+                        case 1: plansza[i][j]=new Dom(i,j); break;
+                        case 2: plansza[i][j]=new Biurowiec(i,j); break;
+                        case 3: plansza[i][j]=new Sklep(i,j); break;
+                        case 4: plansza[i][j]=new Fabryka(i,j); break;
                     }
                 }
                 else plansza[i][j]=new PustaDzialka(i,j);
@@ -78,7 +81,7 @@ public class Miasto {
         }
 
         //wybuduj linie tramwajowe
-        for (int i=0; i<=plansza.length;i++){
+        for (int i=0; i<plansza.length;i++){
             plansza[i][tramKolumna]=new Tramwaj(i,tramKolumna);
             plansza[tramKolumna][i]=new Tramwaj(tramKolumna,i);
         }
@@ -105,11 +108,11 @@ public class Miasto {
         double zadowolenie;
     }
     public static void wyswietlPlansze(){
-        for (int i=0;i<=plansza.length;i++) {
+        for (int i=0;i<plansza.length;i++) {
             System.out.println();
-            for (int j = 0; j <= plansza.length; j++) {
+            for (int j = 0; j < plansza.length; j++) {
                 if (plansza[i][j].typ.equals(Typ.TRAMWAJ))
-                    System.out.print("\uD83D\uDE8A\t");
+                    System.out.print("H\t");
                 if (plansza[i][j].typ.equals(Typ.DOM))
                     System.out.print("\uD83C\uDFE0\t");
                 if (plansza[i][j].typ.equals(Typ.SKLEP))
@@ -117,9 +120,9 @@ public class Miasto {
                 if (plansza[i][j].typ.equals(Typ.BIUROWIEC))
                     System.out.print("\uD83D\uDCBC\t");
                 if (plansza[i][j].typ.equals(Typ.FABRYKA))
-                    System.out.print("\uD83D\uDEA9\t");
+                    System.out.print("\uD83C\uDFED\t");
                 if (plansza[i][j].typ.equals(Typ.PUSTE))
-                    System.out.print("■\t");
+                    System.out.print(".\t");
             }
         }
     }

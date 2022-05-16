@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         Miasto mojeMiasto = new Miasto();
-        mojeMiasto.Inicjalizacja();
+        mojeMiasto.inicjalizacja();
         mojeMiasto.wyswietlPlansze();
     }
 }

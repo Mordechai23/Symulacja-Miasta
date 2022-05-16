@@ -7,14 +7,11 @@ import java.util.Scanner;
 
 public class Miasto {
     //miasto bedzie tworzone domyslnie lub wczytujac plik config
-    public Miasto() {
-        plansza = new Dzialka[wymiar][wymiar];
-    }
     private static int wymiar=10;
-    private static Dzialka[][] plansza;
+    private static Dzialka[][] plansza = new Dzialka[wymiar][wymiar];
     private int runda;
     private int limitRund=100;
-    double zageszczenie=0.4;
+    static double zageszczenie=0.4;
     private static final String filename="config.txt"; //config
 
     //poziomy relacji
@@ -55,7 +52,11 @@ public class Miasto {
     private ArrayList<Double>  logZadowolenie=new ArrayList<Double>();
 
     //metody
-    public void Inicjalizacja(){
+    public static void main(String[] args){
+        inicjalizacja();
+        wyswietlPlansze();
+    }
+    public static void inicjalizacja(){
         //tworzy plansze i populuje ją losowymi budynkami wg parametrow
         int budRandom;
         int tramKolumna=((int) (Math.random() * 8)+1);
@@ -103,7 +104,7 @@ public class Miasto {
         int miejscaPracy;
         double zadowolenie;
     }
-    public void wyswietlPlansze(){
+    public static void wyswietlPlansze(){
         for (int i=0;i<=plansza.length;i++) {
             System.out.println();
             for (int j = 0; j <= plansza.length; j++) {

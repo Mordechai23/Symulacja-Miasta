@@ -5,19 +5,19 @@ import java.util.ArrayList;
 public class Miasto {
     //miasto bedzie tworzone domyslnie lub wczytujac plik config
 
-    int wymiar=10;
+    int wymiar;
     Dzialka[][] Plansza = new Dzialka[wymiar][wymiar]; //tablica NxN obiektów dzialka
     int runda;
     int limitRund;
 
     //poziomy relacji
-    double plus2, plus1, poziom0, minus1, minus2;
+    double plus2, plus1, zero0, minus1, minus2;
 
     //relacje sasiedzkie
-    double  DB, DF, DS, DP, DT, //w formacie opiniujący->opiniowany
-            BD, BS, BF,
-            FS, FD, FB,
-            SD, SB, SF;
+    double  DB, DF, DS, DP, DT, DD, //w formacie opiniujący->opiniowany
+            BD, BS, BF, BB,
+            FS, FD, FB, FF,
+            SD, SB, SF, SS;
 
     //log statystyk:
     ArrayList<Integer> logPuste=new ArrayList<Integer>();

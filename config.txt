@@ -1,0 +1,28 @@
+wymiar 10
+rundy 200
+
+plus2 1
+plus1 0.7
+zero0 0
+minus1 -0.7
+minus2 -1
+
+DB zero0
+DF minus2
+DS plus1
+DP plus1
+DT plus2
+DD plus2
+BD plus1
+BS zero0
+BF minus1
+BB minus1
+FS plus2
+FD plus1
+FB minus1
+FF minus2
+SD plus1
+SB plus1
+SF plus1
+SS minus2
+

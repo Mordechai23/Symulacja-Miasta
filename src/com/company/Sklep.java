@@ -1,4 +1,4 @@
 package com.company;
 
-public class Sklep {
+public class Sklep extends Budynek{
 }

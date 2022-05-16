@@ -8,16 +8,18 @@ public class Dom extends Budynek{
         wspolrzedne[0]=x;
         wspolrzedne[1]=y;
         ustawSasiadow();
+        obliczZadowolenie();
     }
     int obliczUzytkownicy(int poziom){return poziom^2+2;
     }
     double obliczZadowolenie() {
-        return (Miasto.getDB() * sasiednieBiurowiec)
+        zadowolenie=(Miasto.getDB() * sasiednieBiurowiec)
                 + (Miasto.getDD() * sasiednieDom)
                 + (Miasto.getDF() * sasiednieFabryka)
                 + (Miasto.getDP() * sasiedniePuste)
                 + (Miasto.getDS() * sasiednieSklep)
                 + (Miasto.getDT() * sasiednieTramwaj);
+        return zadowolenie;
     }
 
 }

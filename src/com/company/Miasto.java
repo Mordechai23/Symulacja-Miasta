@@ -1,41 +1,48 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Miasto {
     //miasto bedzie tworzone domyslnie lub wczytujac plik config
-
+    public Miasto() {
+        plansza = new Dzialka[wymiar][wymiar];
+    }
     private static int wymiar=10;
-    private static Dzialka[][] plansza = new Dzialka[getWymiar()][getWymiar()]; //tablica NxN obiektów dzialka
+    private static Dzialka[][] plansza;
     private int runda;
-    private int limitRund;
+    private int limitRund=100;
+    double zageszczenie=0.4;
+    private static final String filename="config.txt"; //config
 
     //poziomy relacji
-    private double plus2;
-    private double plus1;
-    private double zero0;
-    private double minus1;
-    private double minus2;
+    private static double plus2=1;
+    private static double plus1=0.7;
+    private static double zero0=0;
+    private static double minus1=-0.7;
+    private static double minus2=-1;
 
     //relacje sasiedzkie
-    private static double DB;
-    private static double DF;
-    private static double DS;
-    private static double DP;
-    private static double DT;
-    private static double DD; //w formacie opiniujący->opiniowany
-    private static double BD;
-    private static double BS;
-    private static double BF;
-    private static double BB;
-    private static double FS;
-    private static double FD;
-    private static double FB;
-    private static double FF;
-    private static double SD;
-    private static double SB;
-    private static double SF;
-    private static double SS;
+    private static double DB=zero0;
+    private static double DF=minus2;
+    private static double DS=plus1;
+    private static double DP=plus1;
+    private static double DT=plus2;
+    private static double DD=plus2;
+    private static double BD=plus1;
+    private static double BS=zero0;
+    private static double BF=minus1;
+    private static double BB=minus1;
+    private static double FS=plus2;
+    private static double FD=plus1;
+    private static double FB=minus1;
+    private static double FF=minus2;
+    private static double SD=plus1;
+    private static double SB=plus1;
+    private static double SF=plus1;
+    private static double SS=minus2;
 
     //log statystyk:
     private ArrayList<Integer> logPuste=new ArrayList<Integer>();
@@ -47,28 +54,34 @@ public class Miasto {
     private ArrayList<Integer> logMiejscaPracy=new ArrayList<Integer>();
     private ArrayList<Double>  logZadowolenie=new ArrayList<Double>();
 
-    public static int getWymiar() {
-        return wymiar;
-    }
-
-    public void setWymiar(int wymiar) {
-        Miasto.wymiar = wymiar;
-    }
-    public static Dzialka[][] getPlansza() {
-        return plansza;
-    }
-    public void setPlansza(Dzialka[][] plansza) {
-        Miasto.plansza = plansza;
-    }
-
-    public static double getDB() {
-        return DB;
-    }
-    public void setDB(double DB) {
-        Miasto.DB = DB;
-    }
+    //metody
     public void Inicjalizacja(){
         //tworzy plansze i populuje ją losowymi budynkami wg parametrow
+        int budRandom;
+        int tramKolumna=((int) (Math.random() * 8)+1);
+
+        //zapelnij plansze budynkami i pustymi polami
+        for (int i=0;i<=plansza.length;i++){
+            for (int j=0; j<=plansza.length; j++){
+                if (Math.random()<zageszczenie) {
+                    budRandom = (int) (Math.random() * 4 + 1);
+                    switch (budRandom){
+                        case 1: plansza[i][j]=new Dom(i,j);
+                        case 2: plansza[i][j]=new Biurowiec(i,j);
+                        case 3: plansza[i][j]=new Sklep(i,j);
+                        case 4: plansza[i][j]=new Fabryka(i,j);
+                    }
+                }
+                else plansza[i][j]=new PustaDzialka(i,j);
+            }
+        }
+
+        //wybuduj linie tramwajowe
+        for (int i=0; i<=plansza.length;i++){
+            plansza[i][tramKolumna]=new Tramwaj(i,tramKolumna);
+            plansza[tramKolumna][i]=new Tramwaj(tramKolumna,i);
+        }
+
     }
     public void wykonajTure(){
         //wykonuje ture jednego gracza
@@ -91,13 +104,48 @@ public class Miasto {
         double zadowolenie;
     }
     public void wyswietlPlansze(){
-
+        for (int i=0;i<=plansza.length;i++) {
+            System.out.println();
+            for (int j = 0; j <= plansza.length; j++) {
+                if (plansza[i][j].typ.equals(Typ.TRAMWAJ))
+                    System.out.print("\uD83D\uDE8A\t");
+                if (plansza[i][j].typ.equals(Typ.DOM))
+                    System.out.print("\uD83C\uDFE0\t");
+                if (plansza[i][j].typ.equals(Typ.SKLEP))
+                    System.out.print("\uD83D\uDED2\t");
+                if (plansza[i][j].typ.equals(Typ.BIUROWIEC))
+                    System.out.print("\uD83D\uDCBC\t");
+                if (plansza[i][j].typ.equals(Typ.FABRYKA))
+                    System.out.print("\uD83D\uDEA9\t");
+                if (plansza[i][j].typ.equals(Typ.PUSTE))
+                    System.out.print("■\t");
+            }
+        }
     }
     public void zapiszDoPliku(){
 
     }
     public void wczytajConfig(){
+        System.out.println("Wczytywanie danych z pliku "+filename+"...");
+        try {
+            File myObj = new File(filename);
+            Scanner fileScanner = new Scanner(myObj);
+            while (fileScanner.hasNextLine()) {
+                String line=fileScanner.nextLine();
 
+                Scanner lineScanner=new Scanner(line);
+                lineScanner.useDelimiter(" ");
+                ArrayList<Integer> maskLine=new ArrayList<>();
+                while (lineScanner.hasNext()){
+                    maskLine.add(lineScanner.nextInt());
+                }
+                lineScanner.close();
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Wystąpił błąd.");
+            e.printStackTrace();
+        }
     }
     public static int policzWSasiedztwie(int x, int y, Typ mojTyp){
         int ilosc=0;
@@ -114,11 +162,33 @@ public class Miasto {
         return ilosc;
     }
 
+
+
+
+    //gettery i settery
+    public static int getWymiar() {
+        return wymiar;
+    }
+    public void setWymiar(int wymiar) {
+        Miasto.wymiar = wymiar;
+    }
+    public static Dzialka[][] getPlansza() {
+        return plansza;
+    }
+    public void setPlansza(Dzialka[][] plansza) {
+        Miasto.plansza = plansza;
+    }
+    public static double getDB() {
+        return DB;
+    }
+    public void setDB(double DB) {
+        Miasto.DB = DB;
+    }
     public static double getDF() {
         return DF;
     }
     public void setDF(double DF) {
-        this.DF = DF;
+        Miasto.DF = DF;
     }
     public int getRunda() {
         return runda;

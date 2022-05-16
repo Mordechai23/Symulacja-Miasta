@@ -7,3 +7,4 @@ abstract class Dzialka {
     int[] wspolrzedne; //(x,y)
     Typ typ;
 }
+

@@ -22,4 +22,10 @@ abstract class Budynek extends Dzialka{
         sasiednieSklep=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.SKLEP);
         sasiednieTramwaj=Miasto.policzWSasiedztwie(wspolrzedne[0],wspolrzedne[1], Typ.TRAMWAJ);
     }
+    void podniesPoziom(){
+        if (poziom<5) {
+            poziom++;
+            obliczUzytkownicy(poziom);
+        }
+    }
 }

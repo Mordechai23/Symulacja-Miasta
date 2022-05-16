@@ -12,8 +12,8 @@ public class Main {
         System.out.println(); for (int i=0;i<10; i++) {System.out.print("\uD83D\uDEA9 ");}
         System.out.println(); for (int i=0;i<10; i++) {System.out.print("\uD83D\uDEA9 ");}
         System.out.println(); for (int i=0;i<10; i++) {System.out.print("\uD83D\uDEA9 ");}
-        System.out.println(); for (int i=0;i<10; i++) {System.out.print("\uD83D\uDEA9 ");}
-        System.out.println(); for (int i=0;i<10; i++) {System.out.print("\uD83D\uDEA9 ");}
+        System.out.println(); for (int i=0;i<10; i++) {System.out.print("\uD83D\uDEA9\t");}
+        System.out.println(); for (int i=0;i<10; i++) {System.out.print("■\t");}
 
     }
 }

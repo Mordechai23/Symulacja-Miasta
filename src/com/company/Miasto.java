@@ -10,24 +10,24 @@ public class Miasto {
     private static int wymiar=20;
     private static Dzialka[][] plansza = new Dzialka[wymiar][wymiar];
     private int runda;
-    private int limitRund=100;
+    private static int limitRund=4000;
     static double zageszczenie=1;
     private static final String filename="config.txt"; //config
 
     //poziomy relacji
-    private static double plus2=1;
-    private static double plus1=0.25;
+    private static double plus2=5;
+    private static double plus1=1;
     private static double zero0=0;
-    private static double minus1=-0.25;
-    private static double minus2=-1;
+    private static double minus1=-1;
+    private static double minus2=-10;
 
     //relacje sasiedzkie
     private static double DB=zero0;
     private static double DF=minus2;
     private static double DS=plus1;
     private static double DP=plus1;
-    private static double DT=plus2;
-    private static double DD=plus2;
+    private static double DT=plus2*5;
+    private static double DD=plus2*5;
     private static double BD=plus1;
     private static double BS=zero0;
     private static double BF=minus1;
@@ -54,8 +54,7 @@ public class Miasto {
     //metody
     public static void main(String[] args){
         inicjalizacja();
-        wyswietlPlansze();
-        wyswietlZadowolenie();
+        wykonajSymulacje(limitRund);
     }
     public static void inicjalizacja(){
         //tworzy plansze i populuje ją losowymi budynkami wg parametrow
@@ -88,7 +87,7 @@ public class Miasto {
         }
         odswierzPlansze();
     }
-    public void wykonajTure(Typ mojTyp){
+    public static void wykonajTure(Typ mojTyp){
         //wykonuje ture jednego gracza
         //podczas tury: burzy 1 budynek, buduje 1 losowego typu, ulepsza 1, obniża poziom 1go
 
@@ -96,7 +95,7 @@ public class Miasto {
         boolean znalezionoPuste=false;
         for (int i=0;i<plansza.length;i++) {
             for (int j = 0; j < plansza.length; j++) {
-                if (plansza[i][j].typ.equals(Typ.PUSTE)){
+                if (plansza[i][j].typ.equals(Typ.PUSTE) && !znalezionoPuste){
                     znalezionoPuste=true;
                     switch (mojTyp){
                         case DOM -> plansza[i][j]=new Dom(i,j);
@@ -106,6 +105,7 @@ public class Miasto {
                     }
                     break;
                 }
+                if (znalezionoPuste) break;
             }
         }
         //jesli nie znajdzie pustego pola, to je stworzy i wybuduje tam budynek
@@ -138,28 +138,38 @@ public class Miasto {
             }
         }
 
+        odswierzPlansze();
     }
-    public void wykonajRunde(){
+    public static void wykonajRunde(){
         //wykonuje 4 tury, po jednej dla kazdego gracza
         wykonajTure(Typ.DOM);
         wykonajTure(Typ.BIUROWIEC);
         wykonajTure(Typ.SKLEP);
         wykonajTure(Typ.FABRYKA);
     }
-    public void wykonajSymulacje(int rundy){
+    public static void wykonajSymulacje(int rundy){
         //wykonuje N=limitRund rund
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("rozpocząć symulacje?");
+        scanner.next();
+        for (int i=1; i<=limitRund; i++){
 
-
+            wykonajRunde();
+            wyswietlPlansze();
+            wyswietlZadowolenie();
+            System.out.println();
+           // scanner.next();
+        }
     }
     public void policzStatystyki(){
-        int puste;
-        int domy;
-        int biurowce;
-        int fabryki;
-        int sklepy;
-        int mieszkancy;
-        int miejscaPracy;
-        double zadowolenie;
+        int puste=0;
+        int domy=0;
+        int biurowce=0;
+        int fabryki=0;
+        int sklepy=0;
+        int mieszkancy=0;
+        int miejscaPracy=0;
+        double zadowolenie=0;
     }
     public static void wyswietlPlansze(){
         for (int i=0;i<plansza.length;i++) {
@@ -337,61 +347,61 @@ public class Miasto {
         return zero0;
     }
     public void setZero0(double zero0) {
-        this.zero0 = zero0;
+        Miasto.zero0 = zero0;
     }
     public double getMinus1() {
         return minus1;
     }
     public void setMinus1(double minus1) {
-        this.minus1 = minus1;
+        Miasto.minus1 = minus1;
     }
     public double getMinus2() {
         return minus2;
     }
     public void setMinus2(double minus2) {
-        this.minus2 = minus2;
+        Miasto.minus2 = minus2;
     }
     public static double getDS() {
         return DS;
     }
     public void setDS(double DS) {
-        this.DS = DS;
+        Miasto.DS = DS;
     }
     public static double getDP() {
         return DP;
     }
     public void setDP(double DP) {
-        this.DP = DP;
+        Miasto.DP = DP;
     }
     public static double getDT() {
         return DT;
     }
     public void setDT(double DT) {
-        this.DT = DT;
+        Miasto.DT = DT;
     }
     public static double getDD() {
         return DD;
     }
     public void setDD(double DD) {
-        this.DD = DD;
+        Miasto.DD = DD;
     }
     public static double getBD() {
         return BD;
     }
     public void setBD(double BD) {
-        this.BD = BD;
+        Miasto.BD = BD;
     }
     public static double getBS() {
         return BS;
     }
     public void setBS(double BS) {
-        this.BS = BS;
+        Miasto.BS = BS;
     }
     public static double getBF() {
         return BF;
     }
     public void setBF(double BF) {
-        this.BF = BF;
+        Miasto.BF = BF;
     }
     public static double getBB() {
         return BB;
@@ -403,7 +413,7 @@ public class Miasto {
         return FS;
     }
     public void setFS(double FS) {
-        this.FS = FS;
+        Miasto.FS = FS;
     }
     public static double getFD() {
         return FD;

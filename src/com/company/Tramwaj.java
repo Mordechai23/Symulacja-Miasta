@@ -8,4 +8,18 @@ public class Tramwaj extends Dzialka{
         poziom=5;
         zadowolenie=0;
     }
+    void obliczUzytkownicy(int poziom) {
+    }
+    void obliczZadowolenie() {
+    }
+
+    @Override
+    void ustawSasiadow() {
+
+    }
+
+    @Override
+    void podniesPoziom() {
+
+    }
 }

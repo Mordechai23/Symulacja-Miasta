@@ -7,11 +7,11 @@ import java.util.Scanner;
 
 public class Miasto {
     //miasto bedzie tworzone domyslnie lub wczytujac plik config
-    private static int wymiar=10;
+    private static int wymiar=20;
     private static Dzialka[][] plansza = new Dzialka[wymiar][wymiar];
     private int runda;
     private int limitRund=100;
-    static double zageszczenie=0.3;
+    static double zageszczenie=1;
     private static final String filename="config.txt"; //config
 
     //poziomy relacji
@@ -55,25 +55,26 @@ public class Miasto {
     public static void main(String[] args){
         inicjalizacja();
         wyswietlPlansze();
+        wyswietlZadowolenie();
     }
     public static void inicjalizacja(){
         //tworzy plansze i populuje ją losowymi budynkami wg parametrow
-        int budRandom=0;
-        int tramKolumna=((int) (Math.random() * 8)+1);
-        double zagRandom;
+        int losujWybierzBudynek=0;
+        int losujTramwaj=((int) (Math.random() * (wymiar-2))+1); //wybiera jeden rzad i kolumne ktore nie są brzegowe
+        double losujZageszczenie;
 
         //zapelnij plansze budynkami i pustymi polami
         for (int i=0;i<plansza.length;i++){
             for (int j=0; j<plansza.length; j++){
 
-                budRandom =((int) (Math.random() * 4) + 1);
-                zagRandom=Math.random();
-                if (zagRandom<zageszczenie) {
-                    switch (budRandom){
-                        case 1: plansza[i][j]=new Dom(i,j); break;
-                        case 2: plansza[i][j]=new Biurowiec(i,j); break;
-                        case 3: plansza[i][j]=new Sklep(i,j); break;
-                        case 4: plansza[i][j]=new Fabryka(i,j); break;
+                losujWybierzBudynek =((int) (Math.random() * 4) + 1);
+                losujZageszczenie=Math.random();
+                if (losujZageszczenie<zageszczenie) {
+                    switch (losujWybierzBudynek) {
+                        case 1 -> plansza[i][j] = new Dom(i, j);
+                        case 2 -> plansza[i][j] = new Biurowiec(i, j);
+                        case 3 -> plansza[i][j] = new Sklep(i, j);
+                        case 4 -> plansza[i][j] = new Fabryka(i, j);
                     }
                 }
                 else plansza[i][j]=new PustaDzialka(i,j);
@@ -82,10 +83,10 @@ public class Miasto {
 
         //wybuduj linie tramwajowe
         for (int i=0; i<plansza.length;i++){
-            plansza[i][tramKolumna]=new Tramwaj(i,tramKolumna);
-            plansza[tramKolumna][i]=new Tramwaj(tramKolumna,i);
+            plansza[i][losujTramwaj]=new Tramwaj(i,losujTramwaj);
+            plansza[losujTramwaj][i]=new Tramwaj(losujTramwaj,i);
         }
-
+        odswierzPlansze();
     }
     public void wykonajTure(){
         //wykonuje ture jednego gracza
@@ -126,6 +127,14 @@ public class Miasto {
             }
         }
     }
+    public static void wyswietlZadowolenie(){
+        for (int i=0;i<plansza.length;i++) {
+            System.out.println();
+            for (int j = 0; j < plansza.length; j++) {
+                    System.out.printf("%+03.0f ", plansza[i][j].zadowolenie);
+            }
+        }
+    }
     public void zapiszDoPliku(){
 
     }
@@ -154,16 +163,64 @@ public class Miasto {
     public static int policzWSasiedztwie(int x, int y, Typ mojTyp){
         int ilosc=0;
 
+        if (x-1>=0 && y-1>=0 && plansza[x-1][y-1].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x-1][y-1].poziom;
+        if (x-1>=0 && y>=0 && plansza[x-1][y].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x-1][y].poziom;
+        if (x-1>=0 && y+1<plansza.length && plansza[x-1][y+1].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x-1][y+1].poziom;
+
+        if (y-1>=0 && plansza[x][y-1].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x][y-1].poziom;
+        if (y+1<plansza.length && plansza[x][y+1].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x][y+1].poziom;
+
+        if (x+1<plansza.length && y-1>=0 && plansza[x+1][y-1].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x+1][y-1].poziom;
+        if (x+1<plansza.length && y>=0 && plansza[x+1][y].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x+1][y].poziom;
+        if (x+1<plansza.length && y+1<plansza.length && plansza[x+1][y+1].typ.equals(mojTyp))
+            ilosc=ilosc+ getPlansza()[x+1][y+1].poziom;
+
         //sasiedztwo 3x3, jak nie bedzie za wolne to sprobowac 5x5
-        for (int i=x-1;i<=x+1;i++){
-            for (int j=y-1;j<=y+1;y++){
-                if (i<0||i> getPlansza().length||j<0||j> getPlansza().length)
-                    continue;
-                if (getPlansza()[i][j].typ.equals(mojTyp))
-                    ilosc=ilosc+ getPlansza()[i][j].poziom;
+//        for (int i=x-1;i<=x+1;i++){
+//            for (int j=y-1;j<=y+1;y++){
+//                if (i<0||i>= getPlansza().length||j<0||j>= getPlansza().length)
+//                    continue;
+//                if (getPlansza()[i][j].typ.equals(mojTyp))
+//                    ilosc=ilosc+ getPlansza()[i][j].poziom;
+//            }
+//        }
+        return ilosc;
+    }
+    public static void odswierzPlansze(){
+        //przechodzi pętlą po planszy i dla kazdego obiektu przelicza zadowolenie, populacje
+        for (int i=0;i<plansza.length;i++) {
+            for (int j = 0; j < plansza.length; j++) {
+                if (!plansza[i][j].typ.equals(Typ.TRAMWAJ) && !plansza[i][j].typ.equals(Typ.PUSTE)){
+                    plansza[i][j].obliczZadowolenie();
+                    plansza[i][j].obliczUzytkownicy(plansza[i][j].poziom);
+                }
             }
         }
-        return ilosc;
+    }
+    public static void wyburzNajgorsze(){
+        //znajduje budynek o najmniejszym zadowoleniu i zmienia go w pustą działkę
+
+        int x=0,y=0;
+        double zadowolenie=999;
+
+        for (int i=0;i<plansza.length;i++) {
+            for (int j = 0; j < plansza.length; j++) {
+                if (!plansza[i][j].typ.equals(Typ.TRAMWAJ) && !plansza[i][j].typ.equals(Typ.PUSTE) && plansza[i][j].zadowolenie < zadowolenie) {
+                    zadowolenie = plansza[i][j].zadowolenie;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+
+        plansza[x][y] = new PustaDzialka(x,y);
     }
 
 
@@ -210,13 +267,13 @@ public class Miasto {
         return plus2;
     }
     public void setPlus2(double plus2) {
-        this.plus2 = plus2;
+        Miasto.plus2 = plus2;
     }
     public double getPlus1() {
         return plus1;
     }
     public void setPlus1(double plus1) {
-        this.plus1 = plus1;
+        Miasto.plus1 = plus1;
     }
     public double getZero0() {
         return zero0;

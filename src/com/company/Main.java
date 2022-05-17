@@ -7,10 +7,5 @@ public class Main {
 //        mojeMiasto.inicjalizacja();
 //        mojeMiasto.wyswietlPlansze();
 
-        int budRandom =(int)(Math.random()*4+1);
-        for (int i=0; i<100; i++){
-            System.out.println(budRandom);
-            budRandom =(int)(Math.random()*4+1);
-        }
     }
 }

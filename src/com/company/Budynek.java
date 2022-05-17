@@ -11,8 +11,7 @@ abstract class Budynek extends Dzialka{
     int sasiednieFabryka;
     int sasiednieSklep;
 
-    abstract int obliczUzytkownicy(int poziom);
-    abstract double obliczZadowolenie();
+
     void ustawSasiadow(){
         sasiedniePuste=Miasto.policzWSasiedztwie(x,y, Typ.PUSTE);
         sasiednieBiurowiec=Miasto.policzWSasiedztwie(x,y, Typ.BIUROWIEC);

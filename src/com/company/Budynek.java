@@ -26,4 +26,11 @@ abstract class Budynek extends Dzialka{
             obliczUzytkownicy(poziom);
         }
     }
+
+    void zmniejszPoziom() {
+        if (poziom>=1) {
+            poziom--;
+            obliczUzytkownicy(poziom);
+        }
+    }
 }

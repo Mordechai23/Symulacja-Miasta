@@ -16,9 +16,9 @@ public class Miasto {
 
     //poziomy relacji
     private static double plus2=1;
-    private static double plus1=0.7;
+    private static double plus1=0.25;
     private static double zero0=0;
-    private static double minus1=-0.7;
+    private static double minus1=-0.25;
     private static double minus2=-1;
 
     //relacje sasiedzkie
@@ -88,15 +88,68 @@ public class Miasto {
         }
         odswierzPlansze();
     }
-    public void wykonajTure(){
+    public void wykonajTure(Typ mojTyp){
         //wykonuje ture jednego gracza
         //podczas tury: burzy 1 budynek, buduje 1 losowego typu, ulepsza 1, obniża poziom 1go
+
+        //zbuduj budynek na pustym polu
+        boolean znalezionoPuste=false;
+        for (int i=0;i<plansza.length;i++) {
+            for (int j = 0; j < plansza.length; j++) {
+                if (plansza[i][j].typ.equals(Typ.PUSTE)){
+                    znalezionoPuste=true;
+                    switch (mojTyp){
+                        case DOM -> plansza[i][j]=new Dom(i,j);
+                        case SKLEP -> plansza[i][j]=new Sklep(i,j);
+                        case FABRYKA -> plansza[i][j]=new Fabryka(i,j);
+                        case BIUROWIEC -> plansza[i][j]=new Biurowiec(i,j);
+                    }
+                    break;
+                }
+            }
+        }
+        //jesli nie znajdzie pustego pola, to je stworzy i wybuduje tam budynek
+        if (!znalezionoPuste){
+            int[] wsp;
+            wsp=wyburzNajgorsze();
+            switch (mojTyp) {
+                case DOM -> plansza[wsp[0]][wsp[1]] = new Dom(wsp[0], wsp[1]);
+                case SKLEP -> plansza[wsp[0]][wsp[1]] = new Sklep(wsp[0], wsp[1]);
+                case FABRYKA -> plansza[wsp[0]][wsp[1]] = new Fabryka(wsp[0], wsp[1]);
+                case BIUROWIEC -> plansza[wsp[0]][wsp[1]] = new Biurowiec(wsp[0], wsp[1]);
+            }
+        }
+        //ulepsz budynek
+        for (int i=0;i<plansza.length;i++) {
+            for (int j = 0; j < plansza.length; j++) {
+                if (plansza[i][j].typ.equals(mojTyp) && plansza[i][j].zadowolenie>5){
+                    plansza[i][j].podniesPoziom();
+                    break;
+                }
+            }
+        }
+        //zmniejsz poziom budynku
+        for (int i=0;i<plansza.length;i++) {
+            for (int j = 0; j < plansza.length; j++) {
+                if (plansza[i][j].typ.equals(mojTyp) && plansza[i][j].zadowolenie<1){
+                    plansza[i][j].zmniejszPoziom();
+                    break;
+                }
+            }
+        }
+
     }
     public void wykonajRunde(){
         //wykonuje 4 tury, po jednej dla kazdego gracza
+        wykonajTure(Typ.DOM);
+        wykonajTure(Typ.BIUROWIEC);
+        wykonajTure(Typ.SKLEP);
+        wykonajTure(Typ.FABRYKA);
     }
-    public void wykonajSymulacje(){
+    public void wykonajSymulacje(int rundy){
         //wykonuje N=limitRund rund
+
+
     }
     public void policzStatystyki(){
         int puste;
@@ -204,8 +257,9 @@ public class Miasto {
             }
         }
     }
-    public static void wyburzNajgorsze(){
+    public static int[] wyburzNajgorsze(){
         //znajduje budynek o najmniejszym zadowoleniu i zmienia go w pustą działkę
+        //zwraca polozenie pustej dzialki
 
         int x=0,y=0;
         double zadowolenie=999;
@@ -221,6 +275,10 @@ public class Miasto {
         }
 
         plansza[x][y] = new PustaDzialka(x,y);
+        int[] wsp = new int[2];
+        wsp[0]=x;
+        wsp[1]=y;
+        return wsp;
     }
 
 

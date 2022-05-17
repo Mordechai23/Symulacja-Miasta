@@ -22,4 +22,9 @@ public class Tramwaj extends Dzialka{
     void podniesPoziom() {
 
     }
+
+    @Override
+    void zmniejszPoziom() {
+
+    }
 }

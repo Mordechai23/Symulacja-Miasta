@@ -11,5 +11,6 @@ abstract class Dzialka {
     abstract void obliczZadowolenie();
     abstract void ustawSasiadow();
     abstract void podniesPoziom();
+    abstract void zmniejszPoziom();
 }
 

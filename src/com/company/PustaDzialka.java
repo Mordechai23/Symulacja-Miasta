@@ -22,4 +22,9 @@ public class PustaDzialka extends Dzialka{
     void podniesPoziom() {
 
     }
+
+    @Override
+    void zmniejszPoziom() {
+
+    }
 }

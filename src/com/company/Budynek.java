@@ -13,12 +13,12 @@ abstract class Budynek extends Dzialka{
 
 
     void ustawSasiadow(){
-        sasiedniePuste=Miasto.policzWSasiedztwie(x,y, Typ.PUSTE);
-        sasiednieBiurowiec=Miasto.policzWSasiedztwie(x,y, Typ.BIUROWIEC);
-        sasiednieDom=Miasto.policzWSasiedztwie(x,y, Typ.DOM);
-        sasiednieFabryka=Miasto.policzWSasiedztwie(x,y, Typ.FABRYKA);
-        sasiednieSklep=Miasto.policzWSasiedztwie(x,y, Typ.SKLEP);
-        sasiednieTramwaj=Miasto.policzWSasiedztwie(x,y, Typ.TRAMWAJ);
+        sasiedniePuste= Plansza.policzWSasiedztwie(x,y, Typ.PUSTE);
+        sasiednieBiurowiec= Plansza.policzWSasiedztwie(x,y, Typ.BIUROWIEC);
+        sasiednieDom= Plansza.policzWSasiedztwie(x,y, Typ.DOM);
+        sasiednieFabryka= Plansza.policzWSasiedztwie(x,y, Typ.FABRYKA);
+        sasiednieSklep= Plansza.policzWSasiedztwie(x,y, Typ.SKLEP);
+        sasiednieTramwaj= Plansza.policzWSasiedztwie(x,y, Typ.TRAMWAJ);
     }
     void podniesPoziom(){
         if (poziom<5) {

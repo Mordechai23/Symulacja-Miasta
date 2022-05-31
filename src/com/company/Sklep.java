@@ -13,9 +13,9 @@ public class Sklep extends Budynek{
     }
     void obliczZadowolenie() {
         ustawSasiadow();
-        zadowolenie= (Miasto.getSB() * sasiednieBiurowiec)
-                + (Miasto.getSD() * sasiednieDom)
-                + (Miasto.getSF() * sasiednieFabryka)
-                + (Miasto.getSS() * sasiednieSklep);
+        zadowolenie= (Plansza.relacjeSasiadow.get("SB") * sasiednieBiurowiec)
+                + (Plansza.relacjeSasiadow.get("SD") * sasiednieDom)
+                + (Plansza.relacjeSasiadow.get("SF") * sasiednieFabryka)
+                + (Plansza.relacjeSasiadow.get("SS") * sasiednieSklep);
     }
 }

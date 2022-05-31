@@ -11,12 +11,12 @@ public class Dom extends Budynek{
     }
     void obliczZadowolenie() {
         ustawSasiadow();
-        zadowolenie=(Miasto.getDB() * sasiednieBiurowiec)
-                + (Miasto.getDD() * sasiednieDom)
-                + (Miasto.getDF() * sasiednieFabryka)
-                + (Miasto.getDP() * sasiedniePuste)
-                + (Miasto.getDS() * sasiednieSklep)
-                + (Miasto.getDT() * sasiednieTramwaj);
+        zadowolenie=(Plansza.relacjeSasiadow.get("DB") * sasiednieBiurowiec)
+                + (Plansza.relacjeSasiadow.get("DD") * sasiednieDom)
+                + (Plansza.relacjeSasiadow.get("DF") * sasiednieFabryka)
+                + (Plansza.relacjeSasiadow.get("DP") * sasiedniePuste)
+                + (Plansza.relacjeSasiadow.get("DS") * sasiednieSklep)
+                + (Plansza.relacjeSasiadow.get("DT") * sasiednieTramwaj);
 
     }
 

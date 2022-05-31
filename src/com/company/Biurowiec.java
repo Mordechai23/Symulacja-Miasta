@@ -12,9 +12,9 @@ public class Biurowiec extends Budynek {
     }
     void obliczZadowolenie() {
         ustawSasiadow();
-        zadowolenie= (Miasto.getBB() * sasiednieBiurowiec)
-                + (Miasto.getBD() * sasiednieDom)
-                + (Miasto.getBF() * sasiednieFabryka)
-                + (Miasto.getBS() * sasiednieSklep);
+        zadowolenie= (Plansza.relacjeSasiadow.get("BB") * sasiednieBiurowiec)
+                + (Plansza.relacjeSasiadow.get("BD") * sasiednieDom)
+                + (Plansza.relacjeSasiadow.get("BF") * sasiednieFabryka)
+                + (Plansza.relacjeSasiadow.get("BS") * sasiednieSklep);
     }
 }

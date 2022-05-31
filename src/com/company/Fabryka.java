@@ -12,9 +12,9 @@ public class Fabryka extends Budynek{
     }
     void obliczZadowolenie() {
         ustawSasiadow();
-        zadowolenie= (Miasto.getFB() * sasiednieBiurowiec)
-                + (Miasto.getFD() * sasiednieDom)
-                + (Miasto.getFF() * sasiednieFabryka)
-                + (Miasto.getFS() * sasiednieSklep);
+        zadowolenie= (Plansza.relacjeSasiadow.get("FB") * sasiednieBiurowiec)
+                + (Plansza.relacjeSasiadow.get("FD") * sasiednieDom)
+                + (Plansza.relacjeSasiadow.get("FF") * sasiednieFabryka)
+                + (Plansza.relacjeSasiadow.get("FS") * sasiednieSklep);
     }
 }

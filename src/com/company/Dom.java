@@ -18,6 +18,10 @@ public class Dom extends Budynek{
                 + (Plansza.relacjeSasiadow.get("DP") * sasiedniePuste)
                 + (Plansza.relacjeSasiadow.get("DS") * sasiednieSklep)
                 + (Plansza.relacjeSasiadow.get("DT") * sasiednieTramwaj);
+        if (sasiednieSklep==0)
+            zadowolenie=zadowolenie-100;
+        if (sasiednieFabryka==0 || sasiednieBiurowiec==0)
+            zadowolenie=zadowolenie-50;
         return zadowolenie;
     }
 

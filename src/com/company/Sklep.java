@@ -18,6 +18,8 @@ public class Sklep extends Budynek{
                 + (Plansza.relacjeSasiadow.get("SD") * sasiednieDom)
                 + (Plansza.relacjeSasiadow.get("SF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("SS") * sasiednieSklep);
+        if (sasiednieDom==0)
+            zadowolenie=zadowolenie-50;
         return zadowolenie;
     }
 }

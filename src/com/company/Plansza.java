@@ -22,7 +22,7 @@ public class Plansza {
     public static HashMap<String,ArrayList<Integer>> logger = new HashMap<>();
 
     //metody
-    public static void inicjalizacja(double zag, int wym) {
+    public static void inicjalizacja(double zag, int wym, String tryb) {
 
         //inicjalizuje pola
         zageszczenie=zag;
@@ -30,18 +30,18 @@ public class Plansza {
         plansza = new Dzialka[wym][wym];
         String filename = "config.txt";
 
-        poziomyRelacji.put("plus2", 5);
+        poziomyRelacji.put("plus2", 3);
         poziomyRelacji.put("plus1", 1);
         poziomyRelacji.put("zero0", 0);
         poziomyRelacji.put("minus1", -1);
-        poziomyRelacji.put("minus2", -8);
+        poziomyRelacji.put("minus2", -5);
 
         relacjeSasiadow.put("DB",poziomyRelacji.get("zero0"));
         relacjeSasiadow.put("DF",poziomyRelacji.get("minus2"));
         relacjeSasiadow.put("DS",poziomyRelacji.get("plus1"));
         relacjeSasiadow.put("DP",poziomyRelacji.get("plus1"));
-        relacjeSasiadow.put("DT",poziomyRelacji.get("plus2")*5);
-        relacjeSasiadow.put("DD",poziomyRelacji.get("plus2")*5);
+        relacjeSasiadow.put("DT",poziomyRelacji.get("plus2")*2);
+        relacjeSasiadow.put("DD",poziomyRelacji.get("plus2")*2);
         relacjeSasiadow.put("BD",poziomyRelacji.get("plus1"));
         relacjeSasiadow.put("BS",poziomyRelacji.get("zero0"));
         relacjeSasiadow.put("BF",poziomyRelacji.get("minus1"));
@@ -60,28 +60,83 @@ public class Plansza {
         int losujTramwaj = ((int) (Math.random() * (wymiar - 2)) + 1); //wybiera jeden rzad i kolumne ktore nie są brzegowe
         double losujZageszczenie;
 
-        //zapelnij plansze budynkami i pustymi polami
-        for (int i = 0; i < plansza.length; i++) {
-            for (int j = 0; j < plansza.length; j++) {
 
-                losujWybierzBudynek = ((int) (Math.random() * 4) + 1);
-                losujZageszczenie = Math.random();
-                if (losujZageszczenie < zageszczenie) {
-                    switch (losujWybierzBudynek) {
-                        case 1 -> plansza[i][j] = new Dom(i, j);
-                        case 2 -> plansza[i][j] = new Biurowiec(i, j);
-                        case 3 -> plansza[i][j] = new Sklep(i, j);
-                        case 4 -> plansza[i][j] = new Fabryka(i, j);
+        if (tryb.equals("domy")||tryb.equals("sklepy")||tryb.equals("biurowce")||tryb.equals("fabryki")) {
+            //zapelnij plansze samymi budynkami jednego typu
+            for (int i = 0; i < plansza.length; i++) {
+                for (int j = 0; j < plansza.length; j++) {
+
+                    losujWybierzBudynek = ((int) (Math.random() * 4) + 1);
+                    losujZageszczenie = Math.random();
+                    if (losujZageszczenie < zageszczenie) {
+                        switch (tryb) {
+                            case "domy" -> plansza[i][j] = new Dom(i, j);
+                            case "biurowce" -> plansza[i][j] = new Biurowiec(i, j);
+                            case "sklepy" -> plansza[i][j] = new Sklep(i, j);
+                            case "fabryki" -> plansza[i][j] = new Fabryka(i, j);
+                        }
+                    } else plansza[i][j] = new PustaDzialka(i, j);
+                }
+            }
+
+            //wybuduj linie tramwajowe
+            for (int i = 0; i < plansza.length; i++) {
+                plansza[i][losujTramwaj] = new Tramwaj(i, losujTramwaj);
+                plansza[losujTramwaj][i] = new Tramwaj(losujTramwaj, i);
+            }
+        }
+        else if (tryb.equals("wczytaj")){
+            //wczytuje gotowa plansze
+            try {
+                File myObj = new File("plansza_init.csv");
+                Scanner myReader = new Scanner(myObj);
+                myReader.useDelimiter(",");
+                for (int i = 0; i < plansza.length; i++) {
+                    for (int j = 0; j < plansza.length; j++) {
+                        switch (myReader.next()){
+                            case "d" -> plansza[i][j] = new Dom(i, j);
+                            case "b" -> plansza[i][j] = new Biurowiec(i, j);
+                            case "s" -> plansza[i][j] = new Sklep(i, j);
+                            case "f" -> plansza[i][j] = new Fabryka(i, j);
+                        }
                     }
-                } else plansza[i][j] = new PustaDzialka(i, j);
+                }
+                myReader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+            //wybuduj linie tramwajowe
+            for (int i = 0; i < plansza.length; i++) {
+                plansza[i][losujTramwaj] = new Tramwaj(i, losujTramwaj);
+                plansza[losujTramwaj][i] = new Tramwaj(losujTramwaj, i);
+            }
+        }
+        else  {
+            //zapelnij plansze losowymi budynkami i pustymi polami
+            for (int i = 0; i < plansza.length; i++) {
+                for (int j = 0; j < plansza.length; j++) {
+
+                    losujWybierzBudynek = ((int) (Math.random() * 4) + 1);
+                    losujZageszczenie = Math.random();
+                    if (losujZageszczenie < zageszczenie) {
+                        switch (losujWybierzBudynek) {
+                            case 1 -> plansza[i][j] = new Dom(i, j);
+                            case 2 -> plansza[i][j] = new Biurowiec(i, j);
+                            case 3 -> plansza[i][j] = new Sklep(i, j);
+                            case 4 -> plansza[i][j] = new Fabryka(i, j);
+                        }
+                    } else plansza[i][j] = new PustaDzialka(i, j);
+                }
+            }
+
+            //wybuduj linie tramwajowe
+            for (int i = 0; i < plansza.length; i++) {
+                plansza[i][losujTramwaj] = new Tramwaj(i, losujTramwaj);
+                plansza[losujTramwaj][i] = new Tramwaj(losujTramwaj, i);
             }
         }
 
-        //wybuduj linie tramwajowe
-        for (int i = 0; i < plansza.length; i++) {
-            plansza[i][losujTramwaj] = new Tramwaj(i, losujTramwaj);
-            plansza[losujTramwaj][i] = new Tramwaj(losujTramwaj, i);
-        }
         odswierzPlansze();
         Log.policzStatystyki();
     }
@@ -104,6 +159,7 @@ public class Plansza {
                     System.out.print(".\t");
             }
         }
+        Log.wypiszStatystyki();
     }
 
     public static void wyswietlZadowolenie() {

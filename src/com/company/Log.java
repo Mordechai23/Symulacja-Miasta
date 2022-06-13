@@ -79,4 +79,15 @@ public class Log {
             e.printStackTrace();
         }
     }
+    public static void wypiszStatystyki(){
+        int i=Symulacja.runda-1;
+        System.out.println();
+        System.out.print("Runda: "+i+",");
+        System.out.print("Budynki: "+logBudynki.get(i)+",");
+        System.out.print("domy: "+logDomy.get(i)+",");
+        System.out.print("biurowce: "+logBiurowce.get(i)+",");
+        System.out.print("sklepy: "+logSklepy.get(i)+",");
+        System.out.print("fabryki: "+logFabryki.get(i)+",");
+        System.out.print("zadowolenie: "+logZadowolenie.get(i)+",\n");
+    }
 }

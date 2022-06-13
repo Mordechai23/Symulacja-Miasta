@@ -17,6 +17,8 @@ public class Biurowiec extends Budynek {
                 + (Plansza.relacjeSasiadow.get("BD") * sasiednieDom)
                 + (Plansza.relacjeSasiadow.get("BF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("BS") * sasiednieSklep);
+        if (sasiednieDom==0)
+            zadowolenie=zadowolenie-50;
         return zadowolenie;
     }
 }

@@ -8,9 +8,13 @@ public class Tramwaj extends Dzialka{
         poziom=5;
         zadowolenie=0;
     }
-    void obliczUzytkownicy(int poziom) {
+    int obliczUzytkownicy(int poziom) {
+        return poziom;
     }
-    void obliczZadowolenie() {
+
+    @Override
+    double obliczZadowolenie() {
+        return 0;
     }
 
     @Override

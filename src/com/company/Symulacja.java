@@ -62,6 +62,7 @@ public class Symulacja {
             }
         }
         Plansza.odswierzPlansze();
+        Log.policzStatystyki();
     }
 
     public static void wykonajRunde() {
@@ -70,6 +71,7 @@ public class Symulacja {
         wykonajTure(Typ.BIUROWIEC);
         wykonajTure(Typ.SKLEP);
         wykonajTure(Typ.FABRYKA);
+
     }
 
     public static void wykonajSymulacje(int rundy) {
@@ -85,6 +87,7 @@ public class Symulacja {
             System.out.println();
             // scanner.next();
         }
+        Log.zapiszDoPliku();
     }
 
     public static int[] wyburzNajgorsze() {

@@ -7,14 +7,16 @@ public class Fabryka extends Budynek{
         this.x=x;
         this.y=y;
     }
-    void obliczUzytkownicy(int poziom) {
+    int obliczUzytkownicy(int poziom) {
         uzytkownicy= (poziom*20)+poziom^2;
+        return uzytkownicy;
     }
-    void obliczZadowolenie() {
+    double obliczZadowolenie() {
         ustawSasiadow();
         zadowolenie= (Plansza.relacjeSasiadow.get("FB") * sasiednieBiurowiec)
                 + (Plansza.relacjeSasiadow.get("FD") * sasiednieDom)
                 + (Plansza.relacjeSasiadow.get("FF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("FS") * sasiednieSklep);
+        return zadowolenie;
     }
 }

@@ -21,39 +21,6 @@ public class Plansza {
     //log statystyk:
     public static HashMap<String,ArrayList<Integer>> logger = new HashMap<>();
 
-    //KONSTRUKTOR
-//    public Plansza(double zag, int wym) {
-//        zageszczenie=zag;
-//        wymiar=wym;
-//        Dzialka[][] plansza = new Dzialka[wym][wym];
-//        String filename = "config.txt";
-//
-//        poziomyRelacji.put("plus2", 5);
-//        poziomyRelacji.put("plus1", 1);
-//        poziomyRelacji.put("zero0", 0);
-//        poziomyRelacji.put("minus1", -1);
-//        poziomyRelacji.put("minus2", -8);
-//
-//        relacjeSasiadow.put("DB",poziomyRelacji.get("zero0"));
-//        relacjeSasiadow.put("DF",poziomyRelacji.get("minus22"));
-//        relacjeSasiadow.put("DS",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("DP",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("DT",poziomyRelacji.get("plus2")*5);
-//        relacjeSasiadow.put("DD",poziomyRelacji.get("plus2")*5);
-//        relacjeSasiadow.put("BD",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("BS",poziomyRelacji.get("zero0"));
-//        relacjeSasiadow.put("BF",poziomyRelacji.get("minus1"));
-//        relacjeSasiadow.put("BB",poziomyRelacji.get("minus1"));
-//        relacjeSasiadow.put("FS",poziomyRelacji.get("plus2"));
-//        relacjeSasiadow.put("FD",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("FB",poziomyRelacji.get("minus1"));
-//        relacjeSasiadow.put("FF",poziomyRelacji.get("minus2"));
-//        relacjeSasiadow.put("SD",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("SB",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("SF",poziomyRelacji.get("plus1"));
-//        relacjeSasiadow.put("SS",poziomyRelacji.get("minus2"));
-//    }
-
     //metody
     public static void inicjalizacja(double zag, int wym) {
 
@@ -116,6 +83,7 @@ public class Plansza {
             plansza[losujTramwaj][i] = new Tramwaj(losujTramwaj, i);
         }
         odswierzPlansze();
+        Log.policzStatystyki();
     }
 
     public static void wyswietlPlansze() {

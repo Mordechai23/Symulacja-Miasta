@@ -8,14 +8,16 @@ public class Sklep extends Budynek{
         this.x=x;
         this.y=y;
     }
-    void obliczUzytkownicy(int poziom) {
+    int obliczUzytkownicy(int poziom) {
         uzytkownicy= (poziom*2);
+        return uzytkownicy;
     }
-    void obliczZadowolenie() {
+    double obliczZadowolenie() {
         ustawSasiadow();
         zadowolenie= (Plansza.relacjeSasiadow.get("SB") * sasiednieBiurowiec)
                 + (Plansza.relacjeSasiadow.get("SD") * sasiednieDom)
                 + (Plansza.relacjeSasiadow.get("SF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("SS") * sasiednieSklep);
+        return zadowolenie;
     }
 }

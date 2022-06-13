@@ -7,9 +7,10 @@ public class Dom extends Budynek{
         this.x=x;
         this.y=y;
     }
-    void obliczUzytkownicy(int poziom){uzytkownicy= poziom^2+2;
+    int obliczUzytkownicy(int poziom){uzytkownicy= poziom^2+2;
+        return uzytkownicy;
     }
-    void obliczZadowolenie() {
+    double obliczZadowolenie() {
         ustawSasiadow();
         zadowolenie=(Plansza.relacjeSasiadow.get("DB") * sasiednieBiurowiec)
                 + (Plansza.relacjeSasiadow.get("DD") * sasiednieDom)
@@ -17,7 +18,7 @@ public class Dom extends Budynek{
                 + (Plansza.relacjeSasiadow.get("DP") * sasiedniePuste)
                 + (Plansza.relacjeSasiadow.get("DS") * sasiednieSklep)
                 + (Plansza.relacjeSasiadow.get("DT") * sasiednieTramwaj);
-
+        return zadowolenie;
     }
 
 }

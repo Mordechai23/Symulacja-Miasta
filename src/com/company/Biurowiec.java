@@ -7,14 +7,16 @@ public class Biurowiec extends Budynek {
         this.x=x;
         this.y=y;
     }
-    void obliczUzytkownicy(int poziom) {
+    int obliczUzytkownicy(int poziom) {
         uzytkownicy=(poziom+1)^2+14;
+        return uzytkownicy;
     }
-    void obliczZadowolenie() {
+    double obliczZadowolenie() {
         ustawSasiadow();
         zadowolenie= (Plansza.relacjeSasiadow.get("BB") * sasiednieBiurowiec)
                 + (Plansza.relacjeSasiadow.get("BD") * sasiednieDom)
                 + (Plansza.relacjeSasiadow.get("BF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("BS") * sasiednieSklep);
+        return zadowolenie;
     }
 }

@@ -7,8 +7,8 @@ abstract class Dzialka {
     Typ typ;
     double zadowolenie;
 
-    abstract void obliczUzytkownicy(int poziom);
-    abstract void obliczZadowolenie();
+    abstract int obliczUzytkownicy(int poziom);
+    abstract double obliczZadowolenie();
     abstract void ustawSasiadow();
     abstract void podniesPoziom();
     abstract void zmniejszPoziom();

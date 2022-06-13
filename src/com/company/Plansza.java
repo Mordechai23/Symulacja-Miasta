@@ -16,18 +16,51 @@ public class Plansza {
 
     //poziomy relacji
     public static HashMap<String, Integer> poziomyRelacji = new HashMap<String, Integer>();
-
     //relacje sasiedzkie
     public static HashMap<String, Integer> relacjeSasiadow = new HashMap<String, Integer>();
-
     //log statystyk:
     public static HashMap<String,ArrayList<Integer>> logger = new HashMap<>();
 
     //KONSTRUKTOR
-    public Plansza(double zag, int wym) {
+//    public Plansza(double zag, int wym) {
+//        zageszczenie=zag;
+//        wymiar=wym;
+//        Dzialka[][] plansza = new Dzialka[wym][wym];
+//        String filename = "config.txt";
+//
+//        poziomyRelacji.put("plus2", 5);
+//        poziomyRelacji.put("plus1", 1);
+//        poziomyRelacji.put("zero0", 0);
+//        poziomyRelacji.put("minus1", -1);
+//        poziomyRelacji.put("minus2", -8);
+//
+//        relacjeSasiadow.put("DB",poziomyRelacji.get("zero0"));
+//        relacjeSasiadow.put("DF",poziomyRelacji.get("minus22"));
+//        relacjeSasiadow.put("DS",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("DP",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("DT",poziomyRelacji.get("plus2")*5);
+//        relacjeSasiadow.put("DD",poziomyRelacji.get("plus2")*5);
+//        relacjeSasiadow.put("BD",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("BS",poziomyRelacji.get("zero0"));
+//        relacjeSasiadow.put("BF",poziomyRelacji.get("minus1"));
+//        relacjeSasiadow.put("BB",poziomyRelacji.get("minus1"));
+//        relacjeSasiadow.put("FS",poziomyRelacji.get("plus2"));
+//        relacjeSasiadow.put("FD",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("FB",poziomyRelacji.get("minus1"));
+//        relacjeSasiadow.put("FF",poziomyRelacji.get("minus2"));
+//        relacjeSasiadow.put("SD",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("SB",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("SF",poziomyRelacji.get("plus1"));
+//        relacjeSasiadow.put("SS",poziomyRelacji.get("minus2"));
+//    }
+
+    //metody
+    public static void inicjalizacja(double zag, int wym) {
+
+        //inicjalizuje pola
         zageszczenie=zag;
         wymiar=wym;
-        Dzialka[][] plansza = new Dzialka[wym][wym];
+        plansza = new Dzialka[wym][wym];
         String filename = "config.txt";
 
         poziomyRelacji.put("plus2", 5);
@@ -37,7 +70,7 @@ public class Plansza {
         poziomyRelacji.put("minus2", -8);
 
         relacjeSasiadow.put("DB",poziomyRelacji.get("zero0"));
-        relacjeSasiadow.put("DF",poziomyRelacji.get("minus22"));
+        relacjeSasiadow.put("DF",poziomyRelacji.get("minus2"));
         relacjeSasiadow.put("DS",poziomyRelacji.get("plus1"));
         relacjeSasiadow.put("DP",poziomyRelacji.get("plus1"));
         relacjeSasiadow.put("DT",poziomyRelacji.get("plus2")*5);
@@ -54,10 +87,7 @@ public class Plansza {
         relacjeSasiadow.put("SB",poziomyRelacji.get("plus1"));
         relacjeSasiadow.put("SF",poziomyRelacji.get("plus1"));
         relacjeSasiadow.put("SS",poziomyRelacji.get("minus2"));
-    }
 
-    //metody
-    public static void inicjalizacja() {
         //tworzy plansze i populuje ją losowymi budynkami wg parametrow
         int losujWybierzBudynek = 0;
         int losujTramwaj = ((int) (Math.random() * (wymiar - 2)) + 1); //wybiera jeden rzad i kolumne ktore nie są brzegowe
@@ -112,7 +142,7 @@ public class Plansza {
         for (int i = 0; i < plansza.length; i++) {
             System.out.println();
             for (int j = 0; j < plansza.length; j++) {
-                System.out.printf("%+03.0f ", plansza[i][j].zadowolenie);
+                System.out.printf("%+04.0f ", plansza[i][j].zadowolenie);
             }
         }
     }

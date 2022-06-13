@@ -5,10 +5,9 @@ import java.util.Scanner;
 public class Symulacja {
     public int runda=1;
     public static int limitRund=400;
-    static Plansza plansza = new Plansza(1,20);
 
     public static void main(String[] args) {
-        Plansza.inicjalizacja();
+        Plansza.inicjalizacja(1,20);
         wykonajSymulacje(limitRund);
     }
 
@@ -18,7 +17,7 @@ public class Symulacja {
 
         //zbuduj budynek na pustym polu
         boolean znalezionoPuste = false;
-        for (int i = 0; i < plansza.plansza.length; i++) {
+        for (int i = 0; i < Plansza.plansza.length; i++) {
             for (int j = 0; j < Plansza.plansza.length; j++) {
                 if (Plansza.plansza[i][j].typ.equals(Typ.PUSTE) && !znalezionoPuste) {
                     znalezionoPuste = true;
@@ -95,17 +94,17 @@ public class Symulacja {
         int x = 0, y = 0;
         double zadowolenie = 999;
 
-        for (int i = 0; i < plansza.plansza.length; i++) {
-            for (int j = 0; j < plansza.plansza.length; j++) {
-                if (!plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ) && !plansza.plansza[i][j].typ.equals(Typ.PUSTE) && plansza.plansza[i][j].zadowolenie < zadowolenie) {
-                    zadowolenie = plansza.plansza[i][j].zadowolenie;
+        for (int i = 0; i < Plansza.plansza.length; i++) {
+            for (int j = 0; j < Plansza.plansza.length; j++) {
+                if (!Plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ) && !Plansza.plansza[i][j].typ.equals(Typ.PUSTE) && Plansza.plansza[i][j].zadowolenie < zadowolenie) {
+                    zadowolenie = Plansza.plansza[i][j].zadowolenie;
                     x = i;
                     y = j;
                 }
             }
         }
 
-        plansza.plansza[x][y] = new PustaDzialka(x, y);
+        Plansza.plansza[x][y] = new PustaDzialka(x, y);
         int[] wsp = new int[2];
         wsp[0] = x;
         wsp[1] = y;

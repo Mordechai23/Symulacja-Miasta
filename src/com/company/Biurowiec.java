@@ -18,7 +18,11 @@ public class Biurowiec extends Budynek {
                 + (Plansza.relacjeSasiadow.get("BF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("BS") * sasiednieSklep);
         if (sasiednieDom==0)
-            zadowolenie=zadowolenie-150;
+            zadowolenie=zadowolenie-80;
+        if (sasiednieSklep==0)
+            zadowolenie=zadowolenie-20;
+        if (sasiednieFabryka+sasiednieBiurowiec+sasiednieDom+sasiednieSklep>4)
+            zadowolenie=zadowolenie-100;
         return zadowolenie;
     }
 }

@@ -19,7 +19,9 @@ public class Sklep extends Budynek{
                 + (Plansza.relacjeSasiadow.get("SF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("SS") * sasiednieSklep);
         if (sasiednieDom==0)
-            zadowolenie=zadowolenie-150;
+            zadowolenie=zadowolenie-100;
+        if (sasiednieFabryka+sasiednieBiurowiec+sasiednieDom+sasiednieSklep>4)
+            zadowolenie=zadowolenie-100;
         return zadowolenie;
     }
 }

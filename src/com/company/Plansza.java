@@ -88,16 +88,20 @@ public class Plansza {
         else if (tryb.equals("wczytaj")){
             //wczytuje gotowa plansze
             try {
-                File myObj = new File("plansza_init.csv");
+                File myObj = new File("lodz.csv");
                 Scanner myReader = new Scanner(myObj);
-                myReader.useDelimiter(",");
+
                 for (int i = 0; i < plansza.length; i++) {
-                    for (int j = 0; j < plansza.length; j++) {
-                        switch (myReader.next()){
+                    String buf=myReader.next();
+                    String[] bufTab=buf.split(",");
+
+                    for (int j = 0; j < bufTab.length; j++) {
+                        switch (bufTab[j]){
                             case "d" -> plansza[i][j] = new Dom(i, j);
                             case "b" -> plansza[i][j] = new Biurowiec(i, j);
                             case "s" -> plansza[i][j] = new Sklep(i, j);
                             case "f" -> plansza[i][j] = new Fabryka(i, j);
+                            case "." -> plansza[i][j] = new PustaDzialka(i, j);
                         }
                     }
                 }
@@ -139,6 +143,7 @@ public class Plansza {
 
         odswierzPlansze();
         Log.policzStatystyki();
+        wyswietlPlansze();
     }
 
     public static void wyswietlPlansze() {

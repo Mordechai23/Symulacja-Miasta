@@ -8,8 +8,8 @@ public class Symulacja {
     public static int limitRund=1600;
 
     public static void main(String[] args) {
-        Plansza.inicjalizacja(0,20,"domy");
-        wykonajSymulacje(limitRund);
+        Plansza.inicjalizacja(0,20,"wczytaj");
+        wykonajSymulacje(limitRund, 0);
     }
 
     public static void wykonajTure(Typ mojTyp) {
@@ -17,10 +17,10 @@ public class Symulacja {
         //podczas tury: burzy 1 budynek, buduje 1 losowego typu, ulepsza 1, obniża poziom 1go
 
         Random random=new Random();
-        int losujAkcje = 1 + (int)(Math.random() * ((3 - 1) + 1));
+        int losujAkcje = 1 + (int)(Math.random() * ((100 - 1) + 1));
 
         //zbuduj budynek na pustym polu
-        if (losujAkcje==10) {
+        if (losujAkcje==1000) {
             boolean znalezionoPuste = false;
             for (int i = 0; i < Plansza.plansza.length; i++) {
                 for (int j = 0; j < Plansza.plansza.length; j++) {
@@ -39,19 +39,19 @@ public class Symulacja {
             }
         }
         //wyburz najgorszy budynek i postaw tam nowy
-        if (losujAkcje==1) {
+        if (losujAkcje<20) {
             int[] wsp;
             wsp = wyburzNajgorsze();
             wybudujBudynek(mojTyp, wsp);
         }
         //wybuduj obok najlepszego
-        if (losujAkcje==2) {
+        if (losujAkcje<=60 && losujAkcje>20) {
             int[] wsp;
             wsp = znajdzNajgorszeObokNajlepszego();
             wybudujBudynek(mojTyp, wsp);
         }
         //wybuduj losowo
-        if (losujAkcje==3) {
+        if (losujAkcje>60 && losujAkcje<=100) {
             int losujX = ((int) (Math.random() * Plansza.wymiar));
             int losujY = ((int) (Math.random() * Plansza.wymiar));
             int[] wsp = new int[2];
@@ -60,7 +60,11 @@ public class Symulacja {
             if (!Plansza.plansza[losujX][losujY].typ.equals(Typ.TRAMWAJ)) {
                 wybudujBudynek(mojTyp, wsp);
             }
-            else {
+            else if (!Plansza.plansza[Plansza.plansza.length-1-losujX][losujY].typ.equals(Typ.TRAMWAJ)){
+                wsp[0]=Plansza.plansza.length-1-losujX;
+                wybudujBudynek(mojTyp, wsp);
+            }
+            else{
                 wsp[0]=Plansza.plansza.length-1-losujX;
                 wsp[1]=Plansza.plansza.length-1-losujY;
                 wybudujBudynek(mojTyp, wsp);
@@ -127,7 +131,7 @@ public class Symulacja {
         Log.policzStatystyki();
     }
 
-    public static void wykonajSymulacje(int rundy) {
+    public static void wykonajSymulacje(int rundy, int sleep) {
         //wykonuje N=limitRund rund
         Scanner scanner = new Scanner(System.in);
         System.out.println("rozpocząć symulacje?");
@@ -136,9 +140,14 @@ public class Symulacja {
 
             wykonajRunde();
             Plansza.wyswietlPlansze();
-            Plansza.wyswietlZadowolenie();
+            //Plansza.wyswietlZadowolenie();
             System.out.println();
             // scanner.next();
+            try {
+                Thread.sleep(sleep);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         Log.zapiszDoPliku();
     }
@@ -150,6 +159,7 @@ public class Symulacja {
 
         int xl = 0, yl = 0;
         double zadowolenieL = 999;
+        int wyburzone=0;
 
         for (int i = 0; i < Plansza.plansza.length; i++) {
             for (int j = 0; j < Plansza.plansza.length; j++) {
@@ -158,6 +168,11 @@ public class Symulacja {
                     xl = i;
                     yl = j;
                 }
+                if (!Plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ)  && Plansza.plansza[i][j].zadowolenie < Log.zadowolenie-20) {
+                    Plansza.plansza[i][j] = new PustaDzialka(i, j);
+                    wyburzone++;
+                }
+                if (wyburzone>4) break;
             }
         }
 

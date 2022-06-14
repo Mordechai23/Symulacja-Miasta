@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Log {
+    static double zadowolenie;
     static ArrayList<Integer> logPuste             = new ArrayList<Integer>();
     static ArrayList<Integer> logDomy              = new ArrayList<Integer>();
     static ArrayList<Integer> logBiurowce          = new ArrayList<Integer>();
@@ -27,7 +28,6 @@ public class Log {
         int sklepy = 0;
         int mieszkancy = 0;
         int miejscaPracy = 0;
-        double zadowolenie = 0;
         int budynki=0;
 
         for (int i = 0; i < Plansza.plansza.length; i++) {
@@ -73,9 +73,9 @@ public class Log {
                 myWriter.write(logZadowolenie.get(i)+",\n");
             }
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("zapisano plik log_miasta.csv");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("wystąpił błąd przy zapisie pliku log_miasta.csv");
             e.printStackTrace();
         }
     }

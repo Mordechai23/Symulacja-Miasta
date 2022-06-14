@@ -16,7 +16,7 @@ public class PustaDzialka extends Dzialka {
 
     @Override
     double obliczZadowolenie() {
-        return 0;
+        return -999;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Fabryka extends Budynek{
                 + (Plansza.relacjeSasiadow.get("FF") * sasiednieFabryka)
                 + (Plansza.relacjeSasiadow.get("FS") * sasiednieSklep);
         if (sasiednieDom==0)
-            zadowolenie=zadowolenie-50;
+            zadowolenie=zadowolenie-150;
         return zadowolenie;
     }
 }

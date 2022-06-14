@@ -1,13 +1,14 @@
 package com.company;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Symulacja {
     public static int runda=1;
-    public static int limitRund=200;
+    public static int limitRund=1600;
 
     public static void main(String[] args) {
-        Plansza.inicjalizacja(1,20,"domy");
+        Plansza.inicjalizacja(0,20,"domy");
         wykonajSymulacje(limitRund);
     }
 
@@ -15,62 +16,113 @@ public class Symulacja {
         //wykonuje ture jednego gracza
         //podczas tury: burzy 1 budynek, buduje 1 losowego typu, ulepsza 1, obniża poziom 1go
 
+        Random random=new Random();
+        int losujAkcje = 1 + (int)(Math.random() * ((3 - 1) + 1));
+
         //zbuduj budynek na pustym polu
-        boolean znalezionoPuste = false;
-        for (int i = 0; i < Plansza.plansza.length; i++) {
-            for (int j = 0; j < Plansza.plansza.length; j++) {
-                if (Plansza.plansza[i][j].typ.equals(Typ.PUSTE) && !znalezionoPuste) {
-                    znalezionoPuste = true;
-                    switch (mojTyp) {
-                        case DOM -> Plansza.plansza[i][j] = new Dom(i, j);
-                        case SKLEP -> Plansza.plansza[i][j] = new Sklep(i, j);
-                        case FABRYKA -> Plansza.plansza[i][j] = new Fabryka(i, j);
-                        case BIUROWIEC -> Plansza.plansza[i][j] = new Biurowiec(i, j);
+        if (losujAkcje==10) {
+            boolean znalezionoPuste = false;
+            for (int i = 0; i < Plansza.plansza.length; i++) {
+                for (int j = 0; j < Plansza.plansza.length; j++) {
+                    if (Plansza.plansza[i][j].typ.equals(Typ.PUSTE) && !znalezionoPuste) {
+                        znalezionoPuste = true;
+                        switch (mojTyp) {
+                            case DOM -> Plansza.plansza[i][j] = new Dom(i, j);
+                            case SKLEP -> Plansza.plansza[i][j] = new Sklep(i, j);
+                            case FABRYKA -> Plansza.plansza[i][j] = new Fabryka(i, j);
+                            case BIUROWIEC -> Plansza.plansza[i][j] = new Biurowiec(i, j);
+                        }
+                        break;
                     }
-                    break;
+                    if (znalezionoPuste) break;
                 }
-                if (znalezionoPuste) break;
             }
         }
-        //jesli nie znajdzie pustego pola, to je stworzy i wybuduje tam 2 budynki
-        if (!znalezionoPuste) {
+        //wyburz najgorszy budynek i postaw tam nowy
+        if (losujAkcje==1) {
             int[] wsp;
             wsp = wyburzNajgorsze();
-            switch (mojTyp) {
-                case DOM -> {Plansza.plansza[wsp[0]][wsp[1]] = new Dom(wsp[0], wsp[1]); Plansza.plansza[wsp[2]][wsp[3]] = new Dom(wsp[2], wsp[3]);}
-                case SKLEP -> {Plansza.plansza[wsp[0]][wsp[1]] = new Sklep(wsp[0], wsp[1]); Plansza.plansza[wsp[2]][wsp[3]] = new Sklep(wsp[2], wsp[3]);}
-                case FABRYKA -> {Plansza.plansza[wsp[0]][wsp[1]] = new Fabryka(wsp[0], wsp[1]); Plansza.plansza[wsp[2]][wsp[3]] = new Fabryka(wsp[2], wsp[3]);}
-                case BIUROWIEC -> {Plansza.plansza[wsp[0]][wsp[1]] = new Biurowiec(wsp[0], wsp[1]); Plansza.plansza[wsp[2]][wsp[3]] = new Biurowiec(wsp[2], wsp[3]);}
+            wybudujBudynek(mojTyp, wsp);
+        }
+        //wybuduj obok najlepszego
+        if (losujAkcje==2) {
+            int[] wsp;
+            wsp = znajdzNajgorszeObokNajlepszego();
+            wybudujBudynek(mojTyp, wsp);
+        }
+        //wybuduj losowo
+        if (losujAkcje==3) {
+            int losujX = ((int) (Math.random() * Plansza.wymiar));
+            int losujY = ((int) (Math.random() * Plansza.wymiar));
+            int[] wsp = new int[2];
+            wsp[0]=losujX;
+            wsp[1]=losujY;
+            if (!Plansza.plansza[losujX][losujY].typ.equals(Typ.TRAMWAJ)) {
+                wybudujBudynek(mojTyp, wsp);
+            }
+            else {
+                wsp[0]=Plansza.plansza.length-1-losujX;
+                wsp[1]=Plansza.plansza.length-1-losujY;
+                wybudujBudynek(mojTyp, wsp);
             }
         }
+
         //ulepsz budynek
-        for (int i = 0; i < Plansza.plansza.length; i++) {
-            for (int j = 0; j < Plansza.plansza.length; j++) {
-                if (Plansza.plansza[i][j].typ.equals(mojTyp) && Plansza.plansza[i][j].zadowolenie > 5) {
-                    Plansza.plansza[i][j].podniesPoziom();
-                    break;
+            for (int i = 0; i < Plansza.plansza.length; i++) {
+                for (int j = 0; j < Plansza.plansza.length; j++) {
+                    if (Plansza.plansza[i][j].typ.equals(mojTyp) && Plansza.plansza[i][j].zadowolenie > 5) {
+                        Plansza.plansza[i][j].podniesPoziom();
+                        break;
+                    }
                 }
             }
-        }
-        //zmniejsz poziom budynku
-        for (int i = 0; i < Plansza.plansza.length; i++) {
-            for (int j = 0; j < Plansza.plansza.length; j++) {
-                if (Plansza.plansza[i][j].typ.equals(mojTyp) && Plansza.plansza[i][j].zadowolenie < 1) {
-                    Plansza.plansza[i][j].zmniejszPoziom();
-                    break;
+       //zmniejsz poziom budynku
+            for (int i = 0; i < Plansza.plansza.length; i++) {
+                for (int j = 0; j < Plansza.plansza.length; j++) {
+                    if (Plansza.plansza[i][j].typ.equals(mojTyp) && Plansza.plansza[i][j].zadowolenie < 1) {
+                        Plansza.plansza[i][j].zmniejszPoziom();
+                        break;
+                    }
                 }
             }
-        }
         Plansza.odswierzPlansze();
 
     }
 
+    private static void wybudujBudynek(Typ mojTyp, int[] wsp) {
+        switch (mojTyp) {
+            case DOM -> {Plansza.plansza[wsp[0]][wsp[1]] = new Dom(wsp[0], wsp[1]);}
+            case SKLEP -> {Plansza.plansza[wsp[0]][wsp[1]] = new Sklep(wsp[0], wsp[1]);}
+            case FABRYKA -> {Plansza.plansza[wsp[0]][wsp[1]] = new Fabryka(wsp[0], wsp[1]);}
+            case BIUROWIEC -> {Plansza.plansza[wsp[0]][wsp[1]] = new Biurowiec(wsp[0], wsp[1]);}
+        }
+    }
+
     public static void wykonajRunde() {
         //wykonuje 4 tury, po jednej dla kazdego gracza
-        wykonajTure(Typ.DOM);
-        wykonajTure(Typ.BIUROWIEC);
-        wykonajTure(Typ.SKLEP);
-        wykonajTure(Typ.FABRYKA);
+        Typ mojTyp;
+        int losujTyp = (int)((Math.random()) * 4 + 1);
+//        switch (losujTyp){
+//            case 0: mojTyp = Typ.DOM;
+//            case 1: mojTyp = Typ.FABRYKA;
+//            case 2: mojTyp = Typ.BIUROWIEC;
+//            case 3: mojTyp = Typ.SKLEP;
+//            default: mojTyp = Typ.DOM;
+//            break;
+//        }
+        if (losujTyp==3){
+            mojTyp=Typ.DOM;
+        }
+        else if (losujTyp==1){
+            mojTyp=Typ.FABRYKA;
+        }
+        else if (losujTyp==2){
+            mojTyp=Typ.SKLEP;
+        }
+        else {
+            mojTyp=Typ.BIUROWIEC;
+        }
+        wykonajTure(mojTyp);
         runda++;
         Log.policzStatystyki();
     }
@@ -97,6 +149,31 @@ public class Symulacja {
         //zwraca polozenie pustej dzialki
 
         int xl = 0, yl = 0;
+        double zadowolenieL = 999;
+
+        for (int i = 0; i < Plansza.plansza.length; i++) {
+            for (int j = 0; j < Plansza.plansza.length; j++) {
+                if (!Plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ)  && Plansza.plansza[i][j].zadowolenie < zadowolenieL) {
+                    zadowolenieL = Plansza.plansza[i][j].zadowolenie;
+                    xl = i;
+                    yl = j;
+                }
+            }
+        }
+
+        Plansza.plansza[xl][yl] = new PustaDzialka(xl, yl);
+        int[] wsp = new int[2];
+        wsp[0] = xl;
+        wsp[1] = yl;
+        return wsp;
+    }
+
+    public static int[] znajdzNajgorszeObokNajlepszego(){
+        //znajduje 1 budynek o najmniejszym zadowoleniu i go wyburza
+        //znajduje 1 budynek o najwyzszym zadowoleniu, znajduje najmniej zadowolony obok niego i go wyburza
+        //zwraca polozenie pustej dzialki
+
+        int xl = 0, yl = 0;
         int xh = 0, yh = 0;
         int xlh =0, ylh= 0;
         double zadowolenieL = 999;
@@ -104,12 +181,7 @@ public class Symulacja {
 
         for (int i = 0; i < Plansza.plansza.length; i++) {
             for (int j = 0; j < Plansza.plansza.length; j++) {
-                if (!Plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ) && !Plansza.plansza[i][j].typ.equals(Typ.PUSTE) && Plansza.plansza[i][j].zadowolenie < zadowolenieL) {
-                    zadowolenieL = Plansza.plansza[i][j].zadowolenie;
-                    xl = i;
-                    yl = j;
-                }
-                if (!Plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ) && !Plansza.plansza[i][j].typ.equals(Typ.PUSTE) && Plansza.plansza[i][j].zadowolenie > zadowolenieH) {
+                if (!Plansza.plansza[i][j].typ.equals(Typ.TRAMWAJ) && Plansza.plansza[i][j].zadowolenie > zadowolenieH) {
                     zadowolenieH = Plansza.plansza[i][j].zadowolenie;
                     xh = i;
                     yh = j;
@@ -117,7 +189,6 @@ public class Symulacja {
             }
         }
 
-        zadowolenieL=999;
         for (int x=xh-1;x<xh+1;x++){
             for (int y=yh-1;y<yh+1;y++){
                 if (x>-1 && x<Plansza.plansza.length && y>-1 && y<Plansza.plansza.length){
@@ -130,13 +201,10 @@ public class Symulacja {
             }
         }
 
-        Plansza.plansza[xl][yl] = new PustaDzialka(xl, yl);
-        Plansza.plansza[xlh][ylh] = new PustaDzialka(xh, yh);
+        Plansza.plansza[xlh][ylh] = new PustaDzialka(xlh, ylh);
         int[] wsp = new int[4];
-        wsp[0] = xl;
-        wsp[1] = yl;
-        wsp[2] = xlh;
-        wsp[3] = ylh;
+        wsp[0] = xlh;
+        wsp[1] = ylh;
         return wsp;
     }
 }

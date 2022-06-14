@@ -30,11 +30,11 @@ public class Plansza {
         plansza = new Dzialka[wym][wym];
         String filename = "config.txt";
 
-        poziomyRelacji.put("plus2", 3);
-        poziomyRelacji.put("plus1", 1);
+        poziomyRelacji.put("plus2", 10);
+        poziomyRelacji.put("plus1", 3);
         poziomyRelacji.put("zero0", 0);
         poziomyRelacji.put("minus1", -1);
-        poziomyRelacji.put("minus2", -5);
+        poziomyRelacji.put("minus2", -3);
 
         relacjeSasiadow.put("DB",poziomyRelacji.get("zero0"));
         relacjeSasiadow.put("DF",poziomyRelacji.get("minus2"));
